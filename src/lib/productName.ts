@@ -10,7 +10,7 @@ export function parseProductName(rawName: string): ProductNameParts {
   const separators = [' | ', ' / ', ' - ', ' — '];
   for (const sep of separators) {
     const parts = clean.split(sep);
-    if (parts.length === 2) {
+    if (parts.length >= 2) {
       const a = parts[0].trim();
       const b = parts[1].trim();
       const arabicRegex = /[\u0600-\u06FF]/;
@@ -31,6 +31,11 @@ export function parseProductName(rawName: string): ProductNameParts {
   }
 
   return { en: clean, ar: clean, full: clean };
+}
+
+export function getLocalizedName(nameParts: ProductNameParts, lang: string): string {
+  // If Arabic, return Arabic part. Otherwise, return English part.
+  return lang === 'ar' ? nameParts.ar : nameParts.en;
 }
 
 export function buildProductSeoTitle(nameParts: ProductNameParts, category: string): string {

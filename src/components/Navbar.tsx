@@ -3,21 +3,32 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Search, ShoppingCart, Menu, X } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, Globe } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
+import { useLanguage, Language } from '@/context/LanguageContext';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
   const pathname = usePathname();
   const { count, openCart } = useCart();
+  const { language, setLanguage, t } = useLanguage();
 
   const links = [
-    { href: '/', label: 'Home' },
-    { href: '/shop', label: 'Shop' },
-    { href: '/about', label: 'About us' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/contact', label: 'Contact us' },
+    { href: '/', label: t('home') },
+    { href: '/shop', label: t('shop') },
+    { href: '/about', label: t('about') },
+    { href: '/blog', label: t('blog') },
+    { href: '/contact', label: t('contact') },
+  ];
+
+  const languages: { code: Language; label: string }[] = [
+    { code: 'en', label: 'English' },
+    { code: 'ar', label: 'العربية' },
+    { code: 'fr', label: 'Français' },
+    { code: 'ru', label: 'Русский' },
+    { code: 'es', label: 'Español' },
   ];
 
   return (
@@ -52,6 +63,35 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-5">
+            <div className="relative">
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="flex items-center gap-1 text-gray-600 hover:text-primary transition-colors"
+                aria-label="Change language"
+              >
+                <Globe className="w-5 h-5" />
+                <span className="text-sm font-medium uppercase hidden sm:block">{language}</span>
+              </button>
+              {langMenuOpen && (
+                <div className="absolute right-0 mt-2 w-32 bg-white rounded-xl shadow-lg border border-gray-100 py-2 z-50">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setLanguage(lang.code);
+                        setLangMenuOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
+                        language === lang.code ? 'text-primary font-bold bg-primary/5' : 'text-gray-700'
+                      }`}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <button aria-label="Search" className="text-gray-600 hover:text-primary transition-colors hidden md:block">
               <Search className="w-5 h-5" />
             </button>

@@ -3,7 +3,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronRight, Star, CheckCircle2, Heart, GitCompare, Package, Truck, Shield, Share2 } from 'lucide-react';
 import { getProductById } from '@/lib/woocommerce';
-import { parseProductName, buildProductSeoTitle, buildProductDescription } from '@/lib/productName';
+import { parseProductName, buildProductSeoTitle, buildProductDescription, getLocalizedName } from '@/lib/productName';
+import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 import AddToCartButton from '@/components/AddToCartButton';
 import type { Product, WithContext } from 'schema-dts';
@@ -23,7 +24,10 @@ export async function generateMetadata(
   }
 
   const nameParts = parseProductName(product.name);
-  const category = (product.categories?.[0]?.name || 'Food').replace(/&amp;/g, '&');
+  const category = (product.categories?.[0]?.name || 'Category').replace(/&amp;/g, '&');
+  const cookieStore = await cookies();
+  const lang = cookieStore.get('NEXT_LOCALE')?.value || 'en';
+  const localizedName = getLocalizedName(nameParts, lang);
   const price = product.price || '0.00';
   const image = product.images?.[0]?.src;
 
@@ -89,6 +93,9 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
   const mainImage = product.images?.[0]?.src || 'https://images.unsplash.com/photo-1609501676725-7186f017a4b7?q=80&w=800&h=800&fit=crop';
   const thumbnails = product.images?.slice(0, 4) || [];
   const category = (product.categories?.[0]?.name || 'Category').replace(/&amp;/g, '&');
+  const cookieStore = await cookies();
+  const lang = cookieStore.get('NEXT_LOCALE')?.value || 'en';
+  const localizedName = getLocalizedName(nameParts, lang);
   const price = product.price || '0.00';
   const regularPrice = product.regular_price;
   const onSale = product.on_sale && regularPrice && regularPrice !== price;
@@ -142,7 +149,7 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
           <ChevronRight className="w-4 h-4" />
           <Link href={`/shop?category=${product.categories?.[0]?.id}`} className="hover:text-primary transition-colors">{category}</Link>
           <ChevronRight className="w-4 h-4" />
-          <span className="text-dark font-medium line-clamp-1">{nameParts.en}</span>
+          <span className="text-dark font-medium line-clamp-1">{localizedName}</span>
         </div>
       </div>
 
@@ -186,9 +193,9 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
               <div className="mb-6 border-b border-gray-100 pb-6">
                 <p className="text-sm text-primary font-bold tracking-wider uppercase mb-2">{category}</p>
 
-                <h1 className="text-3xl md:text-4xl font-bold text-dark mb-2 leading-tight">
-                  {nameParts.en}
-                </h1>
+                <h1 className="text-3xl md:text-4xl font-bold text-dark mb-4 leading-tight">
+            {localizedName}
+          </h1>
                 {hasArabicName && (
                   <h2 className="text-xl text-gray-500 font-medium mb-4" dir="rtl" lang="ar">
                     {nameParts.ar}

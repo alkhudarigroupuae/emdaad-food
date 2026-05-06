@@ -2,12 +2,17 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, ShoppingCart, Star, Truck, Shield, Award, ArrowRight } from 'lucide-react';
 import { getProducts, getCategories } from '@/lib/woocommerce';
+import { parseProductName, getLocalizedName } from '@/lib/productName';
+import { cookies } from 'next/headers';
 
 export const revalidate = 60;
 
 export default async function Home() {
   const products = await getProducts(8);
   const categories = await getCategories();
+
+  const cookieStore = await cookies();
+  const lang = cookieStore.get('NEXT_LOCALE')?.value || 'en';
 
   const safeProducts = Array.isArray(products) ? products : [];
   const safeCategories = Array.isArray(categories) ? categories : [];
@@ -192,8 +197,9 @@ export default async function Home() {
                   </p>
                   <h3
                     className="text-base font-semibold text-dark mb-3 leading-snug group-hover:text-primary transition-colors line-clamp-2 min-h-[48px]"
-                    dangerouslySetInnerHTML={{ __html: p.name }}
-                  ></h3>
+                  >
+                    {p.name.replace(/<[^>]+>/g, '').split(' | ')[0].trim()}
+                  </h3>
 
                   <div className="flex items-center justify-between pt-3 border-t border-gray-100">
                     <div className="flex items-center gap-2">

@@ -4,6 +4,8 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronRight, SlidersHorizontal, Star } from 'lucide-react';
+import { useLanguage } from '@/context/LanguageContext';
+import { parseProductName, getLocalizedName } from '@/lib/productName';
 
 interface Props {
   products: any[];
@@ -12,6 +14,7 @@ interface Props {
 }
 
 export default function ShopClient({ products, categories, priceRange }: Props) {
+  const { t, language } = useLanguage();
   const [maxPrice, setMaxPrice] = useState(priceRange.max);
   const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [sortBy, setSortBy] = useState('latest');
@@ -64,7 +67,7 @@ export default function ShopClient({ products, categories, priceRange }: Props) 
                   checked={selectedCategories.length === 0}
                   onChange={() => setSelectedCategories([])}
                 />
-                <span className="text-gray-600 group-hover:text-primary transition-colors text-sm font-medium">All Products</span>
+                <span className="text-gray-600 group-hover:text-primary transition-colors text-sm font-medium">{t('allProducts')}</span>
                 <span className="ml-auto text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{products.length}</span>
               </label>
             </li>
@@ -89,7 +92,7 @@ export default function ShopClient({ products, categories, priceRange }: Props) 
         </div>
 
         <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-          <h3 className="text-base font-bold text-dark mb-1 pb-4 border-b border-gray-100">Price Range</h3>
+          <h3 className="text-base font-bold text-dark mb-1 pb-4 border-b border-gray-100">{t('priceRange')}</h3>
           <div className="pt-4 space-y-4">
             <input
               type="range"
@@ -190,8 +193,9 @@ export default function ShopClient({ products, categories, priceRange }: Props) 
                   </p>
                   <h3
                     className="font-semibold text-sm leading-snug text-dark group-hover:text-primary transition-colors line-clamp-2 min-h-[40px]"
-                    dangerouslySetInnerHTML={{ __html: p.name }}
-                  />
+                  >
+                    {getLocalizedName(parseProductName(p.name), language)}
+                  </h3>
                   <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                     <div className="flex items-center gap-2">
                       {p.on_sale && p.regular_price && (

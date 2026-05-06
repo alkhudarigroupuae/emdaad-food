@@ -4,7 +4,7 @@ import { useCart } from '@/context/CartContext';
 import { X, Trash2, Plus, Minus, ShoppingBag, ArrowRight, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/context/LanguageContext';
 
 const WC_URL = process.env.NEXT_PUBLIC_WC_URL || 'https://emdaadfood.com';
 
@@ -18,6 +18,7 @@ function buildWcCheckoutUrl(items: ReturnType<typeof useCart>['items']): string 
 
 export default function CartDrawer() {
   const { items, count, total, isOpen, closeCart, removeItem, updateQty } = useCart();
+  const { t } = useLanguage();
 
   return (
     <>
@@ -32,7 +33,7 @@ export default function CartDrawer() {
         <div className="flex items-center justify-between p-5 border-b border-gray-100">
           <div className="flex items-center gap-3">
             <ShoppingBag className="w-5 h-5 text-primary" />
-            <h2 className="text-lg font-bold text-dark">Shopping Cart</h2>
+            <h2 className="text-lg font-bold text-dark">{t('cart')}</h2>
             {count > 0 && (
               <span className="bg-primary text-white text-xs font-bold px-2 py-0.5 rounded-full">{count}</span>
             )}
@@ -51,14 +52,14 @@ export default function CartDrawer() {
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
               <ShoppingBag className="w-10 h-10 text-gray-300" />
             </div>
-            <h3 className="text-lg font-bold text-gray-500">Your cart is empty</h3>
-            <p className="text-gray-500 text-sm">Add some products to get started</p>
+            <h3 className="text-lg font-bold text-gray-500">{t('emptyCart')}</h3>
+            <p className="text-gray-500 text-sm">{t('addProducts')}</p>
             <button
               onClick={closeCart}
               aria-label="Continue Shopping"
               className="mt-2 bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-secondary transition-colors"
             >
-              Continue Shopping
+              {t('continueShopping')}
             </button>
           </div>
         ) : (
@@ -116,7 +117,7 @@ export default function CartDrawer() {
 
             <div className="p-5 border-t border-gray-100 space-y-4 bg-white">
               <div className="flex justify-between items-center">
-                <span className="text-gray-500 font-medium">Subtotal ({count} items)</span>
+                <span className="text-gray-500 font-medium">{t('subtotal')} ({count} items)</span>
                 <span className="text-2xl font-extrabold text-dark">AED {total.toFixed(2)}</span>
               </div>
               <p className="text-xs text-gray-500 font-medium">Shipping and taxes calculated at checkout</p>
@@ -126,7 +127,7 @@ export default function CartDrawer() {
                 rel="noopener noreferrer"
                 className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-secondary transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2 text-base"
               >
-                Proceed to Checkout <ExternalLink className="w-5 h-5" />
+                {t('proceedCheckout')} <ExternalLink className="w-5 h-5" />
               </a>
 
               <div className="flex items-center gap-3 text-xs text-gray-400 justify-center">
