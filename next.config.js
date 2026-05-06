@@ -38,6 +38,10 @@ const nextConfig = {
         source: '/sitemap_index.xml',
         destination: '/sitemap.xml',
       },
+      {
+        source: '/checkout/payment/:path*',
+        destination: 'https://admin.emdaadfood.com/checkout/order-pay/:path*',
+      }
     ];
   },
 }
