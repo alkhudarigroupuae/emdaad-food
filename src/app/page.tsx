@@ -45,12 +45,16 @@ export default async function Home() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
                 href="/shop"
+                aria-label="Shop our products"
+                title="Browse Emdaad Food Trading Shop"
                 className="bg-primary text-white px-8 py-4 rounded-full font-bold hover:bg-secondary transition-all duration-300 shadow-2xl shadow-primary/30 flex items-center gap-3 text-base hover:scale-105 transform w-fit"
               >
                 Shop Now <ChevronRight className="w-5 h-5" />
               </Link>
               <Link
                 href="/about"
+                aria-label="Learn More About Emdaad Food Trading"
+                title="Learn More About Emdaad Food Trading"
                 className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-full font-bold hover:bg-white/20 transition-all duration-300 flex items-center gap-3 text-base w-fit"
               >
                 Learn More
