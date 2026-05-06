@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight, Phone, Mail, MapPin } from 'lucide-react';
 
 export default function Footer() {
@@ -8,10 +9,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           <div>
             <div className="mb-6">
-              <img
+              <Image
                 src="/logo-white.png"
                 alt="Emdaad Food Trading"
-                className="h-28 w-auto object-contain"
+                width={200}
+                height={96}
+                className="h-24 w-auto object-contain"
               />
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">

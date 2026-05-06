@@ -2,6 +2,7 @@
 
 import { useCart } from '@/context/CartContext';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingBag, Trash2, ArrowLeft, ExternalLink, Shield, Lock } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
@@ -48,7 +49,7 @@ export default function CheckoutClient() {
               {items.map((item) => (
                 <div key={item.id} className="flex gap-4 items-center border-b border-gray-50 pb-4 last:border-0 last:pb-0">
                   <div className="w-20 h-20 bg-gray-50 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100">
-                    <img src={item.image} alt={item.nameEn} className="w-full h-full object-contain p-1" />
+                    <Image src={item.image} alt={item.nameEn} width={80} height={80} className="w-full h-full object-contain p-1" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-dark text-sm line-clamp-2 mb-1">{item.nameEn}</h3>
@@ -108,7 +109,7 @@ export default function CheckoutClient() {
                     { src: '/mastercard.png', alt: 'Mastercard' },
                   ].map((p) => (
                     <div key={p.alt} className="bg-gray-50 border border-gray-200 rounded-xl p-2 flex items-center justify-center h-10">
-                      <img src={p.src} alt={p.alt} className="h-5 object-contain" />
+                      <Image src={p.src} alt={p.alt} width={40} height={20} className="h-5 w-auto object-contain" />
                     </div>
                   ))}
                 </div>

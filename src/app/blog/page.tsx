@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight, Calendar, User, ArrowRight } from 'lucide-react';
 import { blogPosts } from '@/lib/blogData';
 
@@ -13,10 +14,13 @@ export default function BlogPage() {
     <>
       <div className="bg-dark text-white py-16 relative overflow-hidden">
         <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1600&auto=format&fit=crop"
-            alt="Blog Emdaad Food Trading"
-            className="w-full h-full object-cover opacity-25"
+          <Image
+            src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1600&auto=format&fit=crop"
+            alt="Emdaad Food Trading Blog"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-25"
           />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

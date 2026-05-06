@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight, Award, Users, Globe, Leaf, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -12,10 +13,13 @@ export default function About() {
     <>
       <div className="bg-dark text-white py-16 relative overflow-hidden">
         <div className="absolute inset-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1516100882582-96c3a05fe590?q=80&w=1600&auto=format&fit=crop"
             alt="About Emdaad Food Trading"
-            className="w-full h-full object-cover opacity-25"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-25"
           />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -60,11 +64,15 @@ export default function About() {
             <div className="flex-1 w-full">
               <div className="relative">
                 <div className="absolute inset-0 bg-primary translate-x-4 translate-y-4 rounded-3xl opacity-20"></div>
-                <img
-                  src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop"
-                  alt="About Emdaad Food Trading"
-                  className="rounded-3xl shadow-2xl w-full object-cover aspect-[4/3] relative z-10"
-                />
+                <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl z-10">
+                  <Image
+                    src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?q=80&w=1000&auto=format&fit=crop"
+                    alt="About Emdaad Food Trading"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -118,11 +126,18 @@ export default function About() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="flex-1">
-              <img
-                src="https://images.unsplash.com/photo-1625134673337-519d4d10b313?q=80&w=1000&auto=format&fit=crop"
-                alt="Our Products"
-                className="rounded-3xl shadow-xl w-full object-cover aspect-[4/3]"
-              />
+              <div className="relative">
+                <div className="absolute inset-0 bg-secondary -translate-x-4 -translate-y-4 rounded-3xl opacity-20"></div>
+                <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl z-10">
+                  <Image
+                    src="https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=1000&auto=format&fit=crop"
+                    alt="Wholesale Emdaad Food Trading"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
             </div>
             <div className="flex-1">
               <span className="text-primary font-bold uppercase text-sm tracking-wider">What We Offer</span>

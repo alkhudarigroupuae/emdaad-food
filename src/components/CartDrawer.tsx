@@ -125,9 +125,9 @@ export default function CartDrawer() {
               </a>
 
               <div className="flex items-center gap-3 text-xs text-gray-400 justify-center">
-                <img src="/paypal.png" alt="PayPal" className="h-5 object-contain opacity-60" />
-                <img src="/visa.png" alt="Visa" className="h-4 object-contain opacity-60" />
-                <img src="/mastercard.png" alt="Mastercard" className="h-5 object-contain opacity-60" />
+                <Image src="/paypal.png" alt="PayPal" width={40} height={20} className="h-5 w-auto object-contain opacity-60" />
+                <Image src="/visa.png" alt="Visa" width={40} height={16} className="h-4 w-auto object-contain opacity-60" />
+                <Image src="/mastercard.png" alt="Mastercard" width={40} height={20} className="h-5 w-auto object-contain opacity-60" />
               </div>
               <button
                 onClick={closeCart}

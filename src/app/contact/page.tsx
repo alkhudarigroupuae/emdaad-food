@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight, Phone, Mail, MapPin, Clock, ArrowRight } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -12,10 +13,13 @@ export default function Contact() {
     <>
       <div className="bg-dark text-white py-16 relative overflow-hidden">
         <div className="absolute inset-0">
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=1600&auto=format&fit=crop"
             alt="Contact Emdaad Food Trading"
-            className="w-full h-full object-cover opacity-25"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover opacity-25"
           />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

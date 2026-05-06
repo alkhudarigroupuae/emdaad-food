@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 import { getProducts, getCategories, getProductPriceRange } from '@/lib/woocommerce';
 import ShopClient from './ShopClient';
