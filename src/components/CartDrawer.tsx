@@ -6,15 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/context/LanguageContext';
 
-const WC_URL = process.env.NEXT_PUBLIC_WC_URL || 'https://admin.emdaadfood.com';
-
-function buildWcCheckoutUrl(items: ReturnType<typeof useCart>['items']): string {
-  if (items.length === 0) return `${WC_URL}/checkout`;
-  const params = items
-    .map((item) => `add-to-cart=${item.id}&quantity=${item.quantity}`)
-    .join('&');
-  return `${WC_URL}/checkout?${params}`;
-}
 
 export default function CartDrawer() {
   const { items, count, total, isOpen, closeCart, removeItem, updateQty } = useCart();

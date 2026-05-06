@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export async function GET() {
-  const WC_URL = process.env.NEXT_PUBLIC_WC_URL || 'https://admin.emdaadfood.com';
+  const WC_URL = process.env.WOOCOMMERCE_URL || 'https://admin.emdaadfood.com';
   const WC_KEY = process.env.WOOCOMMERCE_CONSUMER_KEY || 'ck_59b02ac55bf485a3436e43cdd05a65e3c46ee0e3';
   const WC_SECRET = process.env.WOOCOMMERCE_CONSUMER_SECRET || 'cs_53a8cbad372b52842f4f279b8c498d83094f7b27';
 
