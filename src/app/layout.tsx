@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
 import { CartProvider } from "@/context/CartContext";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://emdaadfood.com'),
@@ -92,6 +93,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </CartProvider>
+        <Analytics />
       </body>
     </html>
   );

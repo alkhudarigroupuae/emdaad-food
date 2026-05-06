@@ -11,7 +11,7 @@ const getEnv = (key: string) => {
 // Initialize the WooCommerce API client
 const WooCommerceRestApiAny: any = WooCommerceRestApi;
 const api = new WooCommerceRestApiAny({
-  url: getEnv('WOOCOMMERCE_URL') !== 'dummy_key_for_build' ? getEnv('WOOCOMMERCE_URL') : 'https://admin.emdaadfood.com',
+  url: getEnv('WOOCOMMERCE_URL') !== 'dummy_key_for_build' ? getEnv('WOOCOMMERCE_URL') : 'https://emdaadfood.com',
   consumerKey: getEnv('WOOCOMMERCE_CONSUMER_KEY'),
   consumerSecret: getEnv('WOOCOMMERCE_CONSUMER_SECRET'),
   version: "wc/v3"
