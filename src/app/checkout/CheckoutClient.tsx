@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { ShoppingBag, Trash2, ArrowLeft, ExternalLink, Shield, Lock } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-const WC_URL = process.env.NEXT_PUBLIC_WC_URL || 'https://emdaadfood.com';
+const WC_URL = process.env.NEXT_PUBLIC_WC_URL || 'https://admin.emdaadfood.com';
 
 function buildWcCheckoutUrl(items: ReturnType<typeof useCart>['items']): string {
   if (items.length === 0) return `${WC_URL}/checkout`;
