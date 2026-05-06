@@ -39,7 +39,8 @@ export default function CartDrawer() {
           </div>
           <button
             onClick={closeCart}
-            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-500"
+            aria-label="Close Cart"
+            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-gray-600"
           >
             <X className="w-5 h-5" />
           </button>
@@ -51,9 +52,10 @@ export default function CartDrawer() {
               <ShoppingBag className="w-10 h-10 text-gray-300" />
             </div>
             <h3 className="text-lg font-bold text-gray-500">Your cart is empty</h3>
-            <p className="text-gray-400 text-sm">Add some products to get started</p>
+            <p className="text-gray-500 text-sm">Add some products to get started</p>
             <button
               onClick={closeCart}
+              aria-label="Continue Shopping"
               className="mt-2 bg-primary text-white px-6 py-3 rounded-full font-semibold hover:bg-secondary transition-colors"
             >
               Continue Shopping
@@ -80,14 +82,16 @@ export default function CartDrawer() {
                       <div className="flex items-center border border-gray-200 rounded-lg bg-white overflow-hidden">
                         <button
                           onClick={() => updateQty(item.id, item.quantity - 1)}
-                          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-600"
+                          aria-label="Decrease quantity"
+                          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
                         <span className="w-8 text-center text-sm font-bold">{item.quantity}</span>
                         <button
                           onClick={() => updateQty(item.id, item.quantity + 1)}
-                          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-600"
+                          aria-label="Increase quantity"
+                          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors text-gray-700"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
@@ -98,7 +102,8 @@ export default function CartDrawer() {
                         </span>
                         <button
                           onClick={() => removeItem(item.id)}
-                          className="text-red-400 hover:text-red-600 transition-colors"
+                          aria-label="Remove item"
+                          className="text-red-500 hover:text-red-700 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -114,7 +119,7 @@ export default function CartDrawer() {
                 <span className="text-gray-500 font-medium">Subtotal ({count} items)</span>
                 <span className="text-2xl font-extrabold text-dark">AED {total.toFixed(2)}</span>
               </div>
-              <p className="text-xs text-gray-400">Shipping and taxes calculated at checkout</p>
+              <p className="text-xs text-gray-500 font-medium">Shipping and taxes calculated at checkout</p>
               <a
                 href={buildWcCheckoutUrl(items)}
                 target="_blank"
