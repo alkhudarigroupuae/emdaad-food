@@ -82,24 +82,7 @@ export default function CheckoutClient() {
 
       if (res.ok) {
         clearCart();
-        
-        if (selectedGateway === 'cod') {
-          // Redirect to success page for COD
-          router.push(`/checkout/success?order_id=${order.id}`);
-        } else if (order.payment_url) {
-          // Redirect to proxied payment url for online payments
-          // Original: https://admin.emdaadfood.com/checkout/order-pay/17308/?pay_for_order=true&key=wc_order_9sVLgWlc6CtZ8
-          // New: /checkout/payment/17308/?pay_for_order=true&key=wc_order_9sVLgWlc6CtZ8
-          try {
-            const urlObj = new URL(order.payment_url);
-            const pathAndQuery = urlObj.pathname.replace('/checkout/order-pay/', '') + urlObj.search;
-            router.push(`/checkout/payment/${pathAndQuery}`);
-          } catch(e) {
-            window.location.href = order.payment_url;
-          }
-        } else {
-          router.push(`/checkout/success?order_id=${order.id}`);
-        }
+        router.push(`/checkout/success?order_id=${order.id}&method=${selectedGateway}`);
       } else {
         alert(order.error || 'Error creating order');
         setIsLoading(false);
