@@ -6,7 +6,7 @@ export async function GET(
 ) {
   const { path } = await params;
   const imagePath = path.join('/');
-  const imageBaseUrl = process.env.WOOCOMMERCE_URL || 'https://emdaadfood.com';
+  const imageBaseUrl = process.env.WOOCOMMERCE_URL || 'https://admin.emdaadfood.com';
   const imageUrl = `${imageBaseUrl}/wp-content/uploads/${imagePath}`;
 
   try {
