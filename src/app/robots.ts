@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/checkout/'], // Prevent indexing checkout and API routes
     },
-    sitemap: 'https://emdaadfood.com/sitemap.xml',
+    sitemap: 'https://emdaadfood.com/sitemap_index.xml',
   };
 }

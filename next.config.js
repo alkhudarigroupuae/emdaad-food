@@ -32,6 +32,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap_index.xml',
+        destination: '/sitemap.xml',
+      },
+    ];
+  },
 }
 
 module.exports = withPWA(nextConfig);
