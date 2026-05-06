@@ -1,18 +1,4 @@
 /** @type {import('next').NextConfig} */
-const withPWA = require('@ducanh2912/next-pwa').default({
-  dest: 'public',
-  cacheOnFrontEndNav: false,
-  aggressiveFrontEndNavCaching: false,
-  reloadOnOnline: true,
-  swcMinify: true,
-  disable: process.env.NODE_ENV === 'development',
-  workboxOptions: {
-    disableDevLogs: true,
-    skipWaiting: true,
-    clientsClaim: true,
-  },
-});
-
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -40,12 +26,21 @@ const nextConfig = {
         source: '/sitemap_index.xml',
         destination: '/sitemap.xml',
       },
-      {
-        source: '/checkout/payment/:path*',
-        destination: 'https://admin.emdaadfood.com/checkout/order-pay/:path*',
-      }
     ];
   },
-}
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          },
+        ],
+      },
+    ];
+  },
+};
 
-module.exports = withPWA(nextConfig);
+module.exports = nextConfig;
