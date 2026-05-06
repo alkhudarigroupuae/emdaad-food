@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ChevronRight, Star, CheckCircle2, Heart, GitCompare, Package, Truck, Shield } from 'lucide-react';
+import { ChevronRight, Star, CheckCircle2, Heart, GitCompare, Package, Truck, Shield, Share2 } from 'lucide-react';
 import { getProductById } from '@/lib/woocommerce';
 import { parseProductName, buildProductSeoTitle, buildProductDescription } from '@/lib/productName';
 import { notFound } from 'next/navigation';
@@ -244,11 +244,11 @@ export default async function ProductDetails({ params }: { params: Promise<{ id:
               }} />
 
               <div className="flex items-center gap-6 pt-6 border-t border-gray-100 mb-8">
-                <button className="flex items-center gap-2 text-gray-500 hover:text-primary font-medium transition-colors">
-                  <Heart className="w-5 h-5" /> Wishlist
+                <button aria-label="Add to Favorites" className="flex items-center gap-2 text-gray-600 hover:text-primary font-medium transition-colors">
+                  <Heart className="w-5 h-5" /> Add to Favorites
                 </button>
-                <button className="flex items-center gap-2 text-gray-500 hover:text-primary font-medium transition-colors">
-                  <GitCompare className="w-5 h-5" /> Compare
+                <button aria-label="Compare Product" className="flex items-center gap-2 text-gray-600 hover:text-primary font-medium transition-colors">
+                  <Share2 className="w-5 h-5" /> Compare
                 </button>
               </div>
 

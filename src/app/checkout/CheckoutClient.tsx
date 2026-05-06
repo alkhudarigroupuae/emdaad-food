@@ -55,14 +55,14 @@ export default function CheckoutClient() {
                     <h3 className="font-semibold text-dark text-sm line-clamp-2 mb-1">{item.nameEn}</h3>
                     <p className="text-xs text-gray-400 mb-2">{item.category}</p>
                     <div className="flex items-center border border-gray-200 rounded-lg bg-gray-50 w-fit">
-                      <button onClick={() => updateQty(item.id, item.quantity - 1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-600 text-sm font-bold rounded-l-lg">−</button>
+                      <button onClick={() => updateQty(item.id, item.quantity - 1)} aria-label="Decrease quantity" className="w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 text-sm font-bold rounded-l-lg">−</button>
                       <span className="w-10 text-center text-sm font-bold">{item.quantity}</span>
-                      <button onClick={() => updateQty(item.id, item.quantity + 1)} className="w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-600 text-sm font-bold rounded-r-lg">+</button>
+                      <button onClick={() => updateQty(item.id, item.quantity + 1)} aria-label="Increase quantity" className="w-8 h-8 flex items-center justify-center hover:bg-gray-200 transition-colors text-gray-700 text-sm font-bold rounded-r-lg">+</button>
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-2">
                     <span className="text-primary font-bold">AED {(parseFloat(item.price) * item.quantity).toFixed(2)}</span>
-                    <button onClick={() => removeItem(item.id)} className="text-red-300 hover:text-red-500 transition-colors">
+                    <button onClick={() => removeItem(item.id)} aria-label="Remove item" className="text-red-500 hover:text-red-700 transition-colors">
                       <Trash2 className="w-4 h-4" />
                     </button>
                   </div>

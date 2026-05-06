@@ -52,7 +52,7 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-5">
-            <button className="text-gray-600 hover:text-primary transition-colors hidden md:block">
+            <button aria-label="Search" className="text-gray-600 hover:text-primary transition-colors hidden md:block">
               <Search className="w-5 h-5" />
             </button>
             <button
