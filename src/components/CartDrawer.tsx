@@ -121,14 +121,13 @@ export default function CartDrawer() {
                 <span className="text-2xl font-extrabold text-dark">AED {total.toFixed(2)}</span>
               </div>
               <p className="text-xs text-gray-500 font-medium">Shipping and taxes calculated at checkout</p>
-              <a
-                href={buildWcCheckoutUrl(items)}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/checkout"
+                onClick={closeCart}
                 className="w-full bg-primary text-white font-bold py-4 rounded-xl hover:bg-secondary transition-colors shadow-lg shadow-primary/20 flex items-center justify-center gap-2 text-base"
               >
-                {t('proceedCheckout')} <ExternalLink className="w-5 h-5" />
-              </a>
+                {t('proceedCheckout')} <ArrowRight className="w-5 h-5" />
+              </Link>
 
               <div className="flex items-center gap-3 text-xs text-gray-400 justify-center">
                 <Image src="/paypal.png" alt="PayPal" width={40} height={20} className="h-5 w-auto object-contain opacity-60" />
