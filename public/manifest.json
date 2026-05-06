@@ -1,0 +1,21 @@
+{
+  "name": "Emdaad Food Trading",
+  "short_name": "Emdaad",
+  "description": "Emdaad Food Trading - Premium quality food products.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#f16122",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
