@@ -122,7 +122,7 @@ export default function ShopClient({ products, categories, priceRange }: Props) 
           </div>
         </div>
 
-        <div className="bg-primary/5 p-6 rounded-2xl border border-primary/20">
+        <div className="hidden lg:block bg-primary/5 p-6 rounded-2xl border border-primary/20">
           <h3 className="text-base font-bold text-dark mb-2">Wholesale Orders?</h3>
           <p className="text-sm text-gray-600 mb-4">Contact us for bulk pricing and special wholesale deals.</p>
           <Link href="/contact" className="block text-center bg-primary text-white py-2.5 rounded-xl font-semibold hover:bg-secondary transition-colors text-sm">

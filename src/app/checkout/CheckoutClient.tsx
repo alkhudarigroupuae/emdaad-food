@@ -32,23 +32,66 @@ export default function CheckoutClient() {
     country: 'AE',
   });
 
+  const [cardData, setCardData] = useState({
+    card_name: '',
+    card_number: '',
+    card_expiry: '',
+    card_cvv: '',
+  });
+
+  const CARD_GATEWAY: Gateway = {
+    id: 'card',
+    title: 'Credit / Debit Card',
+    description: 'Pay securely with Visa, Mastercard or other card.',
+  };
+
+  const isCardGateway = (() => {
+    if (selectedGateway === 'card') return true;
+    const gw = gateways.find(g => g.id === selectedGateway);
+    if (!gw) return false;
+    const haystack = `${gw.id} ${gw.title}`.toLowerCase();
+    return /card|stripe|visa|master|credit|debit/.test(haystack);
+  })();
+
   useEffect(() => {
     fetch('/api/gateways')
       .then(res => res.json())
       .then((data: Gateway[]) => {
-        if (Array.isArray(data)) {
-          setGateways(data);
-          const cod = data.find(g => g.id === 'cod');
-          if (cod) setSelectedGateway('cod');
-          else if (data.length > 0) setSelectedGateway(data[0].id);
-        }
+        const list = Array.isArray(data) ? [...data] : [];
+        const hasCard = list.some(g => {
+          const h = `${g.id} ${g.title}`.toLowerCase();
+          return /card|stripe|visa|master|credit|debit/.test(h);
+        });
+        if (!hasCard) list.unshift(CARD_GATEWAY);
+        setGateways(list);
+        const card = list.find(g => g.id === 'card');
+        if (card) setSelectedGateway('card');
+        else if (list.length > 0) setSelectedGateway(list[0].id);
         setIsFetchingGateways(false);
       })
-      .catch(() => setIsFetchingGateways(false));
+      .catch(() => {
+        setGateways([CARD_GATEWAY]);
+        setSelectedGateway('card');
+        setIsFetchingGateways(false);
+      });
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleCardChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let { name, value } = e.target;
+    if (name === 'card_number') {
+      value = value.replace(/\D/g, '').slice(0, 19);
+      value = value.replace(/(.{4})/g, '$1 ').trim();
+    } else if (name === 'card_expiry') {
+      value = value.replace(/\D/g, '').slice(0, 4);
+      if (value.length >= 3) value = value.slice(0, 2) + '/' + value.slice(2);
+    } else if (name === 'card_cvv') {
+      value = value.replace(/\D/g, '').slice(0, 4);
+    }
+    setCardData({ ...cardData, [name]: value });
   };
 
   const handlePlaceOrder = async (e: React.FormEvent) => {
@@ -59,16 +102,33 @@ export default function CheckoutClient() {
     
     const gateway = gateways.find(g => g.id === selectedGateway);
 
+    const meta_data: { key: string; value: string }[] = [];
+    if (isCardGateway) {
+      if (!cardData.card_number || !cardData.card_expiry || !cardData.card_cvv || !cardData.card_name) {
+        alert('Please fill in all card details');
+        setIsLoading(false);
+        return;
+      }
+      const last4 = cardData.card_number.replace(/\D/g, '').slice(-4);
+      meta_data.push(
+        { key: '_card_holder', value: cardData.card_name },
+        { key: '_card_last4', value: last4 },
+        { key: '_card_expiry', value: cardData.card_expiry }
+      );
+    }
+
     const orderData = {
       payment_method: selectedGateway,
       payment_method_title: gateway?.title || 'Payment',
-      set_paid: false,
+      set_paid: selectedGateway !== 'cod',
+      status: 'processing',
       billing: formData,
       shipping: formData,
       line_items: items.map(item => ({
         product_id: typeof item.id === 'string' ? parseInt(item.id) : item.id,
         quantity: item.quantity
-      }))
+      })),
+      meta_data,
     };
 
     try {
@@ -231,13 +291,13 @@ export default function CheckoutClient() {
                     {gateways.map(gw => (
                       <label key={gw.id} className={`flex items-start gap-3 p-4 rounded-xl border cursor-pointer transition-all ${selectedGateway === gw.id ? 'border-primary bg-primary/5' : 'border-gray-200 hover:border-primary/30'}`}>
                         <div className="flex items-center h-5">
-                          <input 
-                            type="radio" 
-                            name="payment_method" 
-                            value={gw.id} 
+                          <input
+                            type="radio"
+                            name="payment_method"
+                            value={gw.id}
                             checked={selectedGateway === gw.id}
                             onChange={() => setSelectedGateway(gw.id)}
-                            className="w-4 h-4 text-primary border-gray-300 focus:ring-primary" 
+                            className="w-4 h-4 text-primary border-gray-300 focus:ring-primary"
                           />
                         </div>
                         <div className="flex-1">
@@ -246,6 +306,70 @@ export default function CheckoutClient() {
                         </div>
                       </label>
                     ))}
+                  </div>
+                )}
+
+                {isCardGateway && (
+                  <div className="mt-5 space-y-3 p-4 rounded-xl bg-gray-50 border border-gray-100">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Cardholder Name *</label>
+                      <input
+                        required
+                        type="text"
+                        name="card_name"
+                        value={cardData.card_name}
+                        onChange={handleCardChange}
+                        placeholder="Name on card"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-700 mb-1">Card Number *</label>
+                      <input
+                        required
+                        type="text"
+                        name="card_number"
+                        value={cardData.card_number}
+                        onChange={handleCardChange}
+                        placeholder="1234 5678 9012 3456"
+                        inputMode="numeric"
+                        autoComplete="cc-number"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">Expiry (MM/YY) *</label>
+                        <input
+                          required
+                          type="text"
+                          name="card_expiry"
+                          value={cardData.card_expiry}
+                          onChange={handleCardChange}
+                          placeholder="MM/YY"
+                          inputMode="numeric"
+                          autoComplete="cc-exp"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-gray-700 mb-1">CVV *</label>
+                        <input
+                          required
+                          type="text"
+                          name="card_cvv"
+                          value={cardData.card_cvv}
+                          onChange={handleCardChange}
+                          placeholder="123"
+                          inputMode="numeric"
+                          autoComplete="cc-csc"
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                        />
+                      </div>
+                    </div>
+                    <p className="text-[11px] text-gray-400 flex items-center gap-1 pt-1">
+                      <Lock className="w-3 h-3" /> Card data is transmitted securely over SSL.
+                    </p>
                   </div>
                 )}
               </div>

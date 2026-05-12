@@ -115,7 +115,7 @@ export async function getCategories() {
   try {
     const response = await api.get("products/categories", {
       per_page: 100,
-      hide_empty: true,
+      hide_empty: false,
     });
     const categories = response.data || [];
     return categories.map((cat: any) => ({
